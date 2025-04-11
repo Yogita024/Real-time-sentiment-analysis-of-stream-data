@@ -1,7 +1,10 @@
-from evaluate import evaluate_predictions, load_predictions_from_csv
+from evaluate import evaluate_predictions, load_predictions_from_mongo
 
-# Load predictions
-y_true, y_pred = load_predictions_from_csv("data/predictions/part-*.csv")
+# Load predictions from MongoDB
+y_true, y_pred = load_predictions_from_mongo()
 
 # Print evaluation report
-evaluate_predictions(y_true, y_pred)
+if y_true and y_pred:
+    evaluate_predictions(y_true, y_pred)
+else:
+    print("Could not evaluate — no predictions found.")
