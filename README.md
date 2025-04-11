@@ -2,9 +2,6 @@
 
 This repository contains the data processing components of a real-time sentiment analysis application for Twitter data. The application utilizes Apache Kafka, PySpark, and MongoDB.
 
-
-![Screenshot 2024-05-24 193722](https://github.com/elmezianech/Real_Time_Sentiment_Analysis-Data-Processing/assets/120784838/627ee086-c82b-4752-a5c8-f6411b29e612)
-
 ## Introduction
 
 This project aims to develop a real-time sentiment analysis application for tweets using Apache Kafka and Spark Streaming. The goal is to predict the sentiment (positive, negative, neutral, or irrelevant) of a given tweet.
