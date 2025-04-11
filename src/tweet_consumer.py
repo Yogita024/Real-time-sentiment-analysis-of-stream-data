@@ -17,7 +17,7 @@ def decode_prediction(label):
     mapping = {0: "Negative", 1: "Positive", 2: "Neutral", 3: "Irrelevant"}
     return mapping.get(int(label), "Unknown")
 
-# MongoDB writer using ForeachWriter
+# MongoDB writer
 class MongoSink(ForeachWriter):
     def open(self, partition_id, epoch_id):
         self.collection = get_mongo_collection()
@@ -33,6 +33,7 @@ if __name__ == "__main__":
     spark = create_spark_session("StreamingSentimentAnalysis")
     spark.sparkContext.setLogLevel("WARN")
 
+    # Kafka streaming source
     stream = spark.readStream \
         .format("kafka") \
         .option("kafka.bootstrap.servers", "localhost:9092") \
@@ -41,6 +42,7 @@ if __name__ == "__main__":
         .load() \
         .selectExpr("CAST(value AS STRING) as message")
 
+    # Message schema
     schema = StructType() \
         .add("id", StringType()) \
         .add("entity", StringType()) \
@@ -49,26 +51,41 @@ if __name__ == "__main__":
 
     data = stream.select(from_json(col("message"), schema).alias("json")).select("json.*")
 
+    # Register UDFs
     tokenize_udf = udf(tokenize, ArrayType(StringType()))
     decode_udf = udf(decode_prediction, StringType())
 
+    # Clean and transform
     cleaned = data.withColumn("tokens", tokenize_udf(col("text"))).dropna(subset=["tokens"])
     cleaned = cleaned.withColumn("cleaned_text", col("tokens").cast(StringType()))
 
+    # Load pre-trained model
     model = PipelineModel.load("../model/pre_trained_model")
 
+    # Predict
     result = model.transform(cleaned.select("cleaned_text", "id", "entity", "label"))
+
+    # Decode label
     result = result.withColumn("prediction_label", decode_udf(col("prediction")))
 
-    output = result.select("id", "entity", "cleaned_text", "label", "prediction_label")
+    # Final output including probabilities for ROC
+    output = result.select(
+        "id",
+        "entity",
+        "cleaned_text",
+        "label",
+        "prediction",
+        "prediction_label",
+        "probability"
+    )
 
-    # Write to console
+    # Console sink
     query_console = output.writeStream \
         .outputMode("append") \
         .format("console") \
         .start()
 
-    # Write to MongoDB
+    # MongoDB sink
     query_mongo = output.writeStream \
         .foreach(MongoSink()) \
         .outputMode("append") \
