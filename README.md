@@ -9,7 +9,9 @@ This project aims to develop a real-time sentiment analysis application for twee
 ## Architecture and Technologies Used
 
 ### Architecture
-![image](https://github.com/user-attachments/assets/6c3efe88-01fb-46ef-bc3e-4d4ba332335b)
+![image](https://github.com/user-attachments/assets/8b4cc524-17c4-482b-80cd-b42d60739fa9)
+<p align="center"><b> Tweet Analysis Architecture Diagram</b></p>
+
 
 The architecture of the project consists of the following elements:
 1. **Tweet Data Ingestion**: The pipeline begins by reading tweets from a CSV file named `twitter_validation.csv`.
@@ -24,8 +26,6 @@ The architecture of the project consists of the following elements:
 
 ### Tools and Technologies
 
-The tools and technologies used in this project include:
-### Tools and Technologies
 This project leverages a range of tools and technologies across various components to enable real-time sentiment analysis:
 - **Python**: Serves as the primary programming language for building data processing workflows, training machine learning models, and integrating with external systems.
 - **Docker**: Used to containerize individual services and components, ensuring consistent development environments and simplified deployment across different platforms.
