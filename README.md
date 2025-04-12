@@ -21,7 +21,9 @@ The architecture of the project consists of the following elements:
    - **Model Training**: A supervised machine learning model (Logistic Regression) is trained using labeled data.
    - **Sentiment Prediction**: Applies the trained model to classify the sentiment of incoming tweets.
    - **Data Storage**: Stores the sentiment predictions into a MongoDB database.
-4. **Web Application Integration**: The stored results are accessed by the `real-time-sentiment-analysis-of-stream-data` repository for visual representation and analysis.
+4. **Result analysis and visualization**: The performance of the sentiment analysis model is visualized using key metrics such as
+accuracy, precision, recall, and F1-score. An approximate ROC curve is generated based on
+the model’s AUC value to visualize its classification performance.
 
 
 ### Tools and Technologies
