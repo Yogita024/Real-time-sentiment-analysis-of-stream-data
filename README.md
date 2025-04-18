@@ -4,7 +4,7 @@ This repository contains the data processing components of a real-time sentiment
 
 ## Introduction
 
-This project aims to develop a real-time sentiment analysis application for tweets using Apache Kafka and Spark Streaming. The goal is to predict the sentiment (positive, negative, neutral, or irrelevant) of a given tweet.
+This project aims to develop a real-time sentiment analysis application for tweets using Apache Kafka and Spark Streaming. The goal is to predict a given tweet's sentiment (positive, negative, neutral, or irrelevant).
 
 ## Architecture and Technologies Used
 
